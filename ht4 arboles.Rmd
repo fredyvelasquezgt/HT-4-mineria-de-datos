@@ -1,0 +1,30 @@
+---
+title: "ht 4 arboles"
+output: html_document
+date: "2023-03-15"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(rpart)
+library(randomForest)
+library(rpart.plot)
+
+data<-read.csv("./train.csv")
+
+df<-data[,c("LotFrontage","LotArea","GrLivArea","YearBuilt","BsmtUnfSF","TotalBsmtSF","X1stFlrSF","GarageYrBlt","GarageArea","YearRemodAdd", "SalePrice")]
+m1<-rpart(SalePrice ~ ., data = df, method = "anova")
+
+
+```
+
+```{r include=TRUE}
+rpart.plot(m1, type = 3, digits = 3, fallen.leaves = TRUE )
+```
+
+Este arbol de regresion se creo en base a variables numericas con la finalidad de precedir el precio de las viviendas, cosa que mediante este arbol determinamos que todas aquellas casas que cuenten con un living area menor a 1488, que su año de construccion sea menor a 1986 y que el area cuadrada de su sotano sea menor a 1008, cuenta con el 27.1%, por lo que el 27% del total de las viviendas se consideran Economica, mientras que todas aquellas casas que cuenten con un año de construccion mayor o igual a 1986, son consideradas Intermedias con un promedio de 12%, meintras que las casa que tienen un Living Area menor a 1488, con un area del garage mayor a 691 y que tengan un area de sotando mayor a 1917, se considera como Cara, lo cual segun el arbol es un 1% del total de las viviendas. 
+
+
